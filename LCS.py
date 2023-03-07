@@ -37,14 +37,19 @@ class LCS:
             if temp_length > self.length:
                 self.length = temp_length
 
-    def recursive(self, sequence2, i, j):  # dalla definizione ricorsiva del problema della LCS
+    def recursive(self, sequence2):
+        m = len(self.sequence1)-1
+        n = len(sequence2)-1
+        self.length = self.__recursive_aux(sequence2, m, n)
+
+    def __recursive_aux(self, sequence2, i, j):  # dalla definizione ricorsiva del problema della LCS
         if i < 0 or j < 0: # condizione di uscita dalla ricorsione; caso base
             return 0
         if self.sequence1[i] == sequence2[j]:
-            return 1+self.recursive(sequence2, i-1, j-1)
+            return 1+self.__recursive_aux(sequence2, i-1, j-1)
 
         else:
-            return max(self.recursive(sequence2, i, j-1), self.recursive(sequence2, i-1, j))
+            return max(self.__recursive_aux(sequence2, i, j-1), self.__recursive_aux(sequence2, i-1, j))
 
     def recursive_memo(self, sequence2):
         m = len(self.sequence1)
@@ -61,10 +66,10 @@ class LCS:
             return 0
         # quanto segue è identico alla soluzione ricorsiva
         elif self.sequence1[i] == sequence2[j]:
-            return 1+self.recursive(sequence2, i-1, j-1)
+            return 1+self.__recursive_memo_aux(sequence2, c, i-1, j-1)
 
         else:
-            return max(self.recursive(sequence2, i, j-1), self.recursive(sequence2, i-1, j))
+            return max(self.__recursive_memo_aux(sequence2, c, i, j-1), self.__recursive_memo_aux(sequence2, c, i-1, j))
 
     def bottom_up(self, sequence2):
         m = len(self.sequence1)

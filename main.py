@@ -10,14 +10,13 @@ sequence2 = "1001011000123"
 
 #alfa
 #omega
-#
-#length = lcs1.recursive(sequence2, len(lcs1.sequence1)-1, len(sequence2)-1)
 
-#print(length)
-
+#una sorta di pretest per capire se i metodi funzionino
 lcs1.brute_force(sequence2)
-#lcs1.bottom_up(sequence2)
-#lcs1.recursive_memo(sequence2)
-print(lcs1.length)
-#print(lcs1.length)
-#print(lcs1.result)
+print("Risultato con brute-force: ", lcs1.length)
+lcs1.recursive(sequence2)
+print("Risultato con ricorsione: ", lcs1.length)
+lcs1.recursive_memo(sequence2)
+print("Risultato con ricorsione con memoization: ", lcs1.length)
+lcs1.bottom_up(sequence2)
+print("Risultato con ricorsione con bottom-up: ", lcs1.length)
