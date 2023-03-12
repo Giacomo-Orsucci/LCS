@@ -1,42 +1,42 @@
-
+from itertools import combinations
 class LCS:
 
     def __init__(self, sequence1):
         self.sequence1 = sequence1
         self.length = 0
+        self.result = ""
+
+    def all_subsequences(self, s): #metodo per generare tutte le possibili sottosequenze di una sequenza s
+        out = set()
+        for r in range(1, len(s) + 1):
+            for c in combinations(s, r):
+                out.add(''.join(c))
+        return sorted(out)
 
     def brute_force(self, sequence2):
-        """per garantire la correttezza della funzione è necessario che
-           il primo for cicli sulla sequenza di input più breve
-        """
-        if len(self.sequence1) <= len(sequence2):
-            m = len(self.sequence1)
-            n = len(sequence2)
-        else:
-            m = len(sequence2)
-            n = len(self.sequence1)
-            app = self.sequence1
-            self.sequence1 = sequence2
-            sequence2 = app
+        # si creano tutte le possibili sottosequenze della prima stringa
+        substrings = self.all_subsequences(self.sequence1)
+        self.length = 0
+        #print("All substrings of string are : " + str(substrings))
 
-        # ciclo esterno per garantire che ogni carattere della stringa più breve venga confrontato con la stringa più lunga
-        for i in range(m):
-            j = i
-            temp = ""
+        for i in range(len(substrings)): # si cicla per ogni sottosequenza generata
+            substring = substrings[i]
+            last_index = -1
             temp_length = 0
-            # confronto i caratteri successivi a quello preso in esame (e lui stesso compreso) per esaminare tutte le possibili CS
-            for j in range(m):
-                found = False
-                for k in range(n):
-                    # se il carattere è presente nella stringa più lunga
-                    if self.sequence1[j] == sequence2[k] and found is False:
-                        temp += sequence2[k]
-                        temp_length += 1
-                        found = True
-            # alla fine avrò trovato la lunghezza della LCS
-            if temp_length > self.length:
-                self.length = temp_length
+            temp_sub = ""
 
+            for j in range(len(substring)):
+                found = False
+                for k in range(len(sequence2)): # confronto ogni carattere di ogni sottosequenza con i caratteri della seconda stringa
+                    # se i caratteri sono uguali e il carattere è successivo all'ultimo risultato essere uguale
+                    if substring[j] == sequence2[k] and last_index < k and found == False:
+                        temp_length += 1
+                        last_index = k
+                        temp_sub += substring[j]
+                        found = True
+            if temp_length > self.length: # alla fine sarà contenuta la lunghezza della LCS
+                self.length = temp_length
+                self.result = temp_sub
     def recursive(self, sequence2):
         m = len(self.sequence1)-1
         n = len(sequence2)-1
