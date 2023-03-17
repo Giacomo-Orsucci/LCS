@@ -66,6 +66,7 @@ class LCS:
             return 0
         # quanto segue è identico alla soluzione ricorsiva
         elif self.sequence1[i] == sequence2[j]:
+            c[j][i] = max(c[j-1][i-1],c[j][i-1],c[j-1][i]) + 1
             return 1+self.__recursive_memo_aux(sequence2, c, i-1, j-1)
 
         else:
