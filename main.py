@@ -3,19 +3,15 @@ from timeit import default_timer as timer
 import matplotlib.pyplot as plt
 from LCS import *
 
-def random_string_generator(length=2, minValue=0, maxValue=1):
+def random_string_generator(length=2, min_value=0, max_value=1):
     sequence = ""
     for i in range(length):
-        sequence += str(random.randint(minValue, maxValue))
+        sequence += str(random.randint(min_value, max_value))
     return sequence
 
 
-#sequence1 = "502233"
-#lcs1 = LCS("502233")
-#sequence2 = "0030351"
-
-maxLength = 15
-minLength = 1
+maxLength = 12
+minLength = 0
 step = 1
 timeArrayBruteForce = []
 timeArrayRecursive = []
@@ -23,9 +19,9 @@ timeArrayRecursiveMemo = []
 timeArrayBottomUp = []
 stepArray = []
 
-for i in range(minLength,maxLength+1,step):
-    sequence1 = random_string_generator(i,0,9)
-    sequence2 = random_string_generator(i,0,9)
+for i in range(minLength, maxLength+1, step):
+    sequence1 = random_string_generator(i, 0, 9)
+    sequence2 = random_string_generator(i, 0, 9)
 
     print(sequence1)
     print(sequence2)
@@ -54,8 +50,32 @@ for i in range(minLength,maxLength+1,step):
     end = timer()
     timeArrayBottomUp.append(end - start)
 
-#print(stepArray[0])
-#print(timeArrayBruteForce)
+
+figure, axis = plt.subplots(2, 2)
+
+figure.suptitle("Method perfomance comparison")
+
+axis[0, 0].plot(stepArray, timeArrayBruteForce)
+axis[0, 0].set_title("Brute-Force")
+
+axis[0, 1].plot(stepArray, timeArrayRecursive)
+axis[0, 1].set_title("Recursive")
+
+axis[1, 0].plot(stepArray, timeArrayRecursiveMemo)
+axis[1, 0].set_title("Recursive with Memoization")
+
+axis[1, 1].plot(stepArray, timeArrayBottomUp)
+axis[1, 1].set_title("Bottom-Up")
+
+for ax in axis.flat:
+    ax.set(xlabel='sequence size', ylabel='execution time')
+
+plt.tight_layout()
+plt.show()
+
+
+
+"""
 
 plt.plot(stepArray, timeArrayBruteForce)
 plt.plot(stepArray, timeArrayRecursive)
@@ -71,7 +91,7 @@ plt.show()
 plt.plot(stepArray, timeArrayBruteForce)
 plt.plot(stepArray, timeArrayBruteForce)
 plt.show()
-
+"""
 """
 lcs1 = LCS(sequence1)
 
