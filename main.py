@@ -2,6 +2,7 @@ import random
 from timeit import default_timer as timer
 import matplotlib.pyplot as plt
 from LCS import *
+import datetime
 
 def random_string_generator(length=2, min_value=0, max_value=1):
     sequence = ""
@@ -10,7 +11,7 @@ def random_string_generator(length=2, min_value=0, max_value=1):
     return sequence
 
 
-maxLength = 12
+maxLength = 22
 minLength = 0
 step = 1
 timeArrayBruteForce = []
@@ -18,6 +19,8 @@ timeArrayRecursive = []
 timeArrayRecursiveMemo = []
 timeArrayBottomUp = []
 stepArray = []
+
+print("Tempo di inizio: " , datetime.datetime.now())
 
 for i in range(minLength, maxLength+1, step):
     sequence1 = random_string_generator(i, 0, 9)
@@ -50,6 +53,19 @@ for i in range(minLength, maxLength+1, step):
     end = timer()
     timeArrayBottomUp.append(end - start)
 
+print("Tempo di fine: " , datetime.datetime.now())
+
+print("Time array brute force")
+print(timeArrayBruteForce)
+
+print("Time array recursive")
+print(timeArrayRecursive)
+
+print("Time array recursive memo")
+print(timeArrayRecursiveMemo)
+
+print("Time array bottom up")
+print(timeArrayBottomUp)
 
 figure, axis = plt.subplots(2, 2)
 
