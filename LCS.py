@@ -17,7 +17,6 @@ class LCS:
         # si creano tutte le possibili sottosequenze della prima stringa
         substrings = self.all_subsequences(self.sequence1)
         self.length = 0
-        #print("All substrings of string are : " + str(substrings))
 
         for i in range(len(substrings)): # si cicla per ogni sottosequenza generata
             substring = substrings[i]
@@ -55,22 +54,23 @@ class LCS:
         m = len(self.sequence1)
         n = len(sequence2)
 
-        c = [[0 for x in range(m + 1)] for y in range(n + 1)]  # matrice per la memorizzazione dei risultati già calcolati
-        self.length = self.__recursive_memo_aux(sequence2, c, m-1, n-1)
+        c = [[0 for x in range(m+1)] for y in range(n+1)]  # matrice per la memorizzazione dei risultati già calcolati
+        self.length = self.__recursive_memo_aux(sequence2, c, m, n)
 
     def __recursive_memo_aux(self, sequence2, c, i, j):
         if c[j][i] != 0:  # se il risultato è già stato calcolato, ritorno il valore ritrovato
             return c[j][i]
 
-        elif i < 0 or j < 0:  # condizione di uscita dalla ricorsione; caso base
+        elif i <= 0 or j <= 0:  # condizione di uscita dalla ricorsione; caso base
             return 0
         # quanto segue è identico alla soluzione ricorsiva
-        elif self.sequence1[i] == sequence2[j]:
-            c[j][i] = max(c[j-1][i-1],c[j][i-1],c[j-1][i]) + 1
-            return 1+self.__recursive_memo_aux(sequence2, c, i-1, j-1)
+        elif self.sequence1[i-1] == sequence2[j-1]:
+            c[j][i] = 1+self.__recursive_memo_aux(sequence2, c, i-1, j-1)
+            return c[j][i]
 
         else:
-            return max(self.__recursive_memo_aux(sequence2, c, i, j-1), self.__recursive_memo_aux(sequence2, c, i-1, j))
+            c[j][i] = max(self.__recursive_memo_aux(sequence2, c, i, j-1), self.__recursive_memo_aux(sequence2, c, i-1, j))
+            return c[j][i]
 
     def bottom_up(self, sequence2):
         m = len(self.sequence1)

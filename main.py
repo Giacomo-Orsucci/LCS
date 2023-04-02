@@ -11,8 +11,8 @@ def random_string_generator(length=2, min_value=0, max_value=1):
     return sequence
 
 
-maxLength = 22
-minLength = 0
+maxLength = 16
+minLength = 1
 step = 1
 timeArrayBruteForce = []
 timeArrayRecursive = []
@@ -36,21 +36,25 @@ for i in range(minLength, maxLength+1, step):
     start = timer()
     lcs1.brute_force(sequence2)
     end = timer()
+    print("Risultato con brute-force: ", lcs1.length)
     timeArrayBruteForce.append(end - start)
 
     start = timer()
     lcs1.recursive(sequence2)
     end = timer()
+    print("Risultato con ricorsivo: ", lcs1.length)
     timeArrayRecursive.append(end - start)
 
     start = timer()
     lcs1.recursive_memo(sequence2)
     end = timer()
+    print("Risultato con ricorsivo con memo: ", lcs1.length)
     timeArrayRecursiveMemo.append(end - start)
 
     start = timer()
     lcs1.bottom_up(sequence2)
     end = timer()
+    print("Risultato con bottom-up: ", lcs1.length)
     timeArrayBottomUp.append(end - start)
 
 print("Tempo di fine: " , datetime.datetime.now())
