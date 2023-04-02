@@ -1,4 +1,5 @@
 from itertools import combinations
+import numpy as np
 class LCS:
 
     def __init__(self, sequence1):
@@ -15,12 +16,13 @@ class LCS:
 
     def brute_force(self, sequence2):
         # si creano tutte le possibili sottosequenze della prima stringa
-        substrings = self.all_subsequences(self.sequence1)
+        substrings = np.array(self.all_subsequences(self.sequence1))
         self.length = 0
         #print("All substrings of string are : " + str(substrings))
 
         for i in range(len(substrings)): # si cicla per ogni sottosequenza generata
             substring = substrings[i]
+
             last_index = -1
             temp_length = 0
             temp_sub = ""
@@ -55,7 +57,7 @@ class LCS:
         m = len(self.sequence1)
         n = len(sequence2)
 
-        c = [[0 for x in range(m + 1)] for y in range(n + 1)]  # matrice per la memorizzazione dei risultati già calcolati
+        c = np.zeros((m+1, n+1), dtype=int) # matrice per la memorizzazione dei risultati già calcolati
         self.length = self.__recursive_memo_aux(sequence2, c, m-1, n-1)
 
     def __recursive_memo_aux(self, sequence2, c, i, j):
@@ -66,7 +68,7 @@ class LCS:
             return 0
         # quanto segue è identico alla soluzione ricorsiva
         elif self.sequence1[i] == sequence2[j]:
-            c[j][i] = max(c[j-1][i-1],c[j][i-1],c[j-1][i]) + 1
+            c[j][i] = max(c[j-1][i-1], c[j][i-1], c[j-1][i]) + 1
             return 1+self.__recursive_memo_aux(sequence2, c, i-1, j-1)
 
         else:
@@ -75,7 +77,7 @@ class LCS:
     def bottom_up(self, sequence2):
         m = len(self.sequence1)
         n = len(sequence2)
-        c = [[0 for x in range(m+1)] for y in range(n+1)]  # matrice per la memorizzazione dei risultati già calcolati
+        c = np.zeros((m+1, n+1), dtype=int) # matrice per la memorizzazione dei risultati già calcolati
 
         # le stringhe vuote avranno LCS nulla
         for i in range(1, m+1):

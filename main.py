@@ -14,11 +14,11 @@ def random_string_generator(length=2, min_value=0, max_value=1):
 maxLength = 22
 minLength = 0
 step = 1
-timeArrayBruteForce = []
-timeArrayRecursive = []
-timeArrayRecursiveMemo = []
-timeArrayBottomUp = []
-stepArray = []
+timeArrayBruteForce = np.zeros(maxLength+1)
+timeArrayRecursive = np.zeros(maxLength+1)
+timeArrayRecursiveMemo = np.zeros(maxLength+1)
+timeArrayBottomUp = np.zeros(maxLength+1)
+stepArray = np.zeros(maxLength+1)
 
 print("Tempo di inizio: " , datetime.datetime.now())
 
@@ -29,29 +29,29 @@ for i in range(minLength, maxLength+1, step):
     print(sequence1)
     print(sequence2)
 
-    stepArray.append(i)
+    stepArray[i] = i
 
     lcs1 = LCS(sequence1)
 
     start = timer()
     lcs1.brute_force(sequence2)
     end = timer()
-    timeArrayBruteForce.append(end - start)
+    timeArrayBruteForce[i] = end - start
 
     start = timer()
     lcs1.recursive(sequence2)
     end = timer()
-    timeArrayRecursive.append(end - start)
+    timeArrayRecursive[i] = end - start
 
     start = timer()
     lcs1.recursive_memo(sequence2)
     end = timer()
-    timeArrayRecursiveMemo.append(end - start)
+    timeArrayRecursiveMemo[i] = end - start
 
     start = timer()
     lcs1.bottom_up(sequence2)
     end = timer()
-    timeArrayBottomUp.append(end - start)
+    timeArrayBottomUp[i] = end - start
 
 print("Tempo di fine: " , datetime.datetime.now())
 
