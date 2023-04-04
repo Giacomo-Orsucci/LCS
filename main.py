@@ -11,7 +11,7 @@ def random_string_generator(length=2, min_value=0, max_value=1):
     return sequence
 
 
-maxLength = 16
+maxLength = 23
 minLength = 1
 step = 1
 timeArrayBruteForce = []
