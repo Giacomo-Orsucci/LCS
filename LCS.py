@@ -1,12 +1,11 @@
 from itertools import combinations
 class LCS:
 
-    def __init__(self, sequence1):
+    def __init__(self, sequence1): # costruttore della classe
         self.sequence1 = sequence1
         self.length = 0
-        self.result = ""
 
-    def all_subsequences(self, s): #metodo per generare tutte le possibili sottosequenze di una sequenza s
+    def all_subsequences(self, s): # metodo per generare tutte le possibili sottosequenze di una sequenza s
         out = set()
         for r in range(1, len(s) + 1):
             for c in combinations(s, r):
@@ -27,7 +26,7 @@ class LCS:
             for j in range(len(substring)):
                 found = False
                 for k in range(len(sequence2)): # confronto ogni carattere di ogni sottosequenza con i caratteri della seconda stringa
-                    # se i caratteri sono uguali e il carattere è successivo all'ultimo risultato essere uguale
+                    # se i caratteri sono uguali e il carattere è successivo all'ultimo che è risultato essere uguale
                     if substring[j] == sequence2[k] and last_index < k and found == False:
                         temp_length += 1
                         last_index = k
@@ -36,7 +35,7 @@ class LCS:
             if temp_length > self.length: # alla fine sarà contenuta la lunghezza della LCS
                 self.length = temp_length
                 self.result = temp_sub
-    def recursive(self, sequence2):
+    def recursive(self, sequence2): # metodo sfruttato per entrare nella ricorsione vera e propria
         m = len(self.sequence1)-1
         n = len(sequence2)-1
         self.length = self.__recursive_aux(sequence2, m, n)
@@ -50,7 +49,7 @@ class LCS:
         else:
             return max(self.__recursive_aux(sequence2, i, j-1), self.__recursive_aux(sequence2, i-1, j))
 
-    def recursive_memo(self, sequence2):
+    def recursive_memo(self, sequence2): # metodo sfruttato per entrare nella ricorsione vera e propria
         m = len(self.sequence1)
         n = len(sequence2)
 
@@ -96,14 +95,3 @@ class LCS:
                 else:
                     c[j][i] = c[j][i-1]
         self.length = c[n][m]
-
-
-
-
-
-
-
-
-
-
-
