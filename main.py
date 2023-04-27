@@ -2,7 +2,7 @@ import random
 from timeit import default_timer as timer
 import matplotlib.pyplot as plt
 from LCS import *
-import datetime
+
 
 def random_string_generator(length=2, min_value=0, max_value=1): # metodo per la generazione casuale delle sequenze da testare
     sequence = ""
@@ -10,10 +10,36 @@ def random_string_generator(length=2, min_value=0, max_value=1): # metodo per la
         sequence += str(random.randint(min_value, max_value))
     return sequence
 
+print("\n")
+print("********************************************************************")
+print("* Programma per il confronto dei metodi                            *")
+print("* Forza Bruta, Ricorsivo, Ricorsivo con Memoization e Bottom Up    *")
+print("* per il calcolo della LCS tra sequenze generate casualmente       *")
+print("********************************************************************")
+print("\n")
 
-maxLength = 12
-minLength = 1
-step = 1
+for i in range(5): # controllo sull'input della dimensione minima
+    i -= 1
+    minLength = input("Inserisci la dimensione minima delle sequenze (min 1): ")
+    minLength = int(minLength)
+    if minLength >= 1:
+        break
+
+for i in range(5):  # controllo sull'input della dimensione massima
+    i -= 1
+    maxLength = input("Inserisci la dimensione massima delle sequenze (si consiglia max 16): ")
+    maxLength = int(maxLength)
+    if maxLength >= minLength:
+        break
+
+for i in range(5):  # controllo sull'input dell'incremento per la generazione delle diverse sequenze
+    i -= 1
+    step = input("Inserisci lo step di generazione delle sequenze (min 1): ")
+    step = int(step)
+    if step >= 1:
+        break
+
+
 timeArrayBruteForce = []
 timeArrayRecursive = []
 timeArrayRecursiveMemo = []
@@ -23,6 +49,9 @@ stepArray = []
 for i in range(minLength, maxLength+1, step):
     sequence1 = random_string_generator(i, 0, 9) # sequenza X generata casualmente
     sequence2 = random_string_generator(i, 0, 9) # sequenza Y generata casualmente
+    print("\n")
+    print("Dimensione: ", i)
+    print("Sequenze generate casualmente e confrontate: ", sequence1, "  ", sequence2)
 
     stepArray.append(i) # array con la dimensione delle sequenze per le ascisse dei grafici
 
@@ -52,25 +81,47 @@ for i in range(minLength, maxLength+1, step):
     end = timer()
     timeArrayBottomUp.append(end - start)
 
+
 # si plottano 4 grafici per confrontare i metodi
 figure, axis = plt.subplots(2, 2)
 
-figure.suptitle("Method perfomance comparison")
+figure.suptitle("Confronto delle prestazioni dei 4 metodi")
 
 axis[0, 0].plot(stepArray, timeArrayBruteForce)
-axis[0, 0].set_title("Brute-Force")
+axis[0, 0].set_title("Forza bruta")
 
 axis[0, 1].plot(stepArray, timeArrayRecursive)
-axis[0, 1].set_title("Recursive")
+axis[0, 1].set_title("Ricorsivo")
 
 axis[1, 0].plot(stepArray, timeArrayRecursiveMemo)
-axis[1, 0].set_title("Recursive with Memoization")
+axis[1, 0].set_title("Ricorsivo con Memoization")
 
 axis[1, 1].plot(stepArray, timeArrayBottomUp)
 axis[1, 1].set_title("Bottom-Up")
 
+print("\nTempi di esecuzione algoritmo Forza Bruta: ")
+print(timeArrayBruteForce)
+
+print("\nTempi di esecuzione algoritmo Ricorsivo: ")
+print(timeArrayRecursive)
+
+print("\nTempi di esecuzione algoritmo Ricorsivo con Memoization: ")
+print(timeArrayRecursiveMemo)
+
+print("\nTempi di esecuzione algoritmo Bottom-Up: ")
+print(timeArrayBottomUp)
+
+i = 0
 for ax in axis.flat:
-    ax.set(xlabel='sequence size', ylabel='execution time')
+    if i == 0 or i == 2:
+        ax.set(ylabel='Tempo di esecuzione')
+
+    if i == 2 or i == 3:
+        ax.set(xlabel='Dimensione della sequenza')
+    i += 1
+
 
 plt.tight_layout()
+plt.savefig("Confronto_metodi_LCS.png")
 plt.show()
+
